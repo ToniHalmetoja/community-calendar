@@ -85,7 +85,7 @@
    float:left;
   font-size:2em;
   text-align:center;
-  height:500px;
+  min-height:50%;
   width:500px;
 }
 
