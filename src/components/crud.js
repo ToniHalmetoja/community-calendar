@@ -64,7 +64,7 @@ const Delete = async (id) => {
 }
 
 const Holidays = async (month) => {
-    const resp = await fetch("http://sholiday.faboul.se/dagar/v2.1/" + month, {method: "GET"});
+    const resp = await fetch("https://sholiday.faboul.se/dagar/v2.1/" + month, {method: "GET"});
     const response = await resp.json();
     return response;
 }
