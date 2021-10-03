@@ -9,7 +9,7 @@ import CalendarCell from "./calendarCell"
 import EventDisplay from "./eventDisplay"
 import {Write, Delete, ReadAll, Holidays} from "./crud"
 
-const getCalendarArray = date => {
+const getCalendarArray = (date: number | Date) => {
     const mondays = eachWeekOfInterval({
       start: startOfMonth(date),
       end: endOfMonth(date)
@@ -36,6 +36,12 @@ function Calendar(){
     const [ allEvents, setAllEvents ] = useState({});
     const [ renderMonth, setRenderMonth ] = useState(true);
     const [ holidays, setHolidays ] = useState([]);
+
+    interface eventArray {
+      _id: string,
+      date: string,
+      note: string
+    }
    
     useEffect(() => {
       async function returnMonths(){
@@ -50,29 +56,29 @@ function Calendar(){
       returnMonths()
     },[targetDate])
 
-    const handleNew = async (newEvent) => {
+    const handleNew = async (newEvent : string) => {
       if(newEvent){
         const response = await Write(selectedDate, newEvent);
         if(response === "Update ok"){
           let response = await ReadAll();
           setAllEvents(response);
-          var result = response.filter(obj => obj.date.includes(selectedDate.toString()))            
+          var result = response.filter((obj : eventArray) => obj.date.includes(selectedDate.toString()))            
           setCurrentEvents(result)
         }
       }
     }
 
-    const handleRemove = async (id) => {
+    const handleRemove = async (id : number) => {
       const response = await Delete(id);
       if(response === "Update ok"){
         let response = await ReadAll();
         setAllEvents(response);
-        var result = response.filter(obj => obj.date.includes(selectedDate.toString()))            
+        var result = response.filter((obj : eventArray) => obj.date.includes(selectedDate.toString()))            
         setCurrentEvents(result)
       }
     }
 
-    const showEvents = (id, events) => {
+    const showEvents = (id : number, events: Object[]) => {
       const newSelection = new Date(id);
       if(selectedDate.getTime() !== newSelection.getTime()){
         setSelectedDate(newSelection)
